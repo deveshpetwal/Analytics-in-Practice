@@ -1,0 +1,188 @@
+---
+title: "Dev Assignment 1 Solution"
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Reading data:
+
+```{r}
+Agencies <- read.csv("us_agencies.csv")
+Companies <- read.csv("us_companies.csv")
+```
+
+#Libraries used:
+
+```{r}
+library(jsonlite)
+library(dplyr)
+```
+
+#Q1 Missing Columns? 
+No missing columns.
+
+```{r}
+head(Agencies)
+
+head(Companies)
+```
+
+#Q2 Any missing column names or errors in the column names? 
+No missing column names or errors.
+
+```{r}
+colnames(Agencies)
+colnames(Companies)
+```
+
+#Q3 Any missing values?
+Agencies  - 2718 missing values
+Companies - 2315 missing values
+
+```{r}
+Agencies[Agencies == ""] <- NA
+sapply(Agencies,function(x) sum(is.na(x)))
+sum(is.na(Agencies))
+
+
+Companies[Companies == ""] <- NA
+sapply(Companies,function(x) sum(is.na(x)))
+sum(is.na(Companies))
+```
+
+
+#Q4 How is data organized in each column? Is it properly organized?  
+Through the perspective of data analysis, the data is poorly organized as there are several categorical values, repetitive columns and some of the columns will not add any value in our analysis.
+
+#Q5 Is data in the proper shape for further analysis?
+Though there is a lot of information through different variables, still the data is not in proper shape for further analysis.
+
+The reasons are as follows:
+1. company_name_id could have been a numeric id.
+2. There are lot  of missing values which needs to be imputed with suitable method.
+3. The format of url is different throught the column.
+4. Format of displaying full_time_employees is different throught the column.
+5. In revenue_source multiple sources are given which needs to be standardized for analysis.
+6. The menaing of some columns are hard to make out and thus a discription of variables is required.
+7. There are a lot of unwanted  characters.
+8. The count in used_by_fte needs to be standardized.
+
+Thus, there are lots of changes to be made before further analysis.
+
+#Q6 How will you fix this dataset? 
+There are several steps we can take, such as:
+1. Imputing missing values by mean for numeric values and mode for categorical values.
+2. Standardizing the values in columns with a particular format.
+3. Normalizing the data.
+4. Removing duplicate data.
+5. Removing the outliers.
+6. Finding the meaning for those variables which we do not understand.
+
+For instance, we can form the dataset without duplicates like this:
+```{r}
+Agencies %>% unique()
+Companies %>% unique()
+```
+
+#Q7 How are the two datasets linked to each other? Is there a common “primary key” to connect the two datasets? 
+"company_category" and "used_by_catrgory" of Companies and Agencies respectively can be used as a primary key that link the two datasets.
+
+
+#Exercise 2:
+
+#Reading JSON file:
+
+```{r}
+Traffic <- fromJSON("ChicagoTraffic.json")
+```
+
+#Q1 How many variables are in the dataset?
+23 variable in the dataset.
+```{r}
+print(nrow(Traffic$meta$view$columns))
+```
+
+#Q2 Name all the variables?
+See output.
+```{r}
+print(Traffic$meta$view$columns$name)
+```
+
+
+#Q3 What is the total traffic of vehicles on 100th street to 115th street?
+Total Traffic of vehicles on 100th street to 115th street is: 264000.
+
+```{r}
+Total_Traffic <- Traffic$data
+for(k in 1:1279){
+  if(Total_Traffic[[k]][[11]] == "100th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+  }
+  if(Total_Traffic[[k]][[11]] == "101th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+  }
+  if(Total_Traffic[[k]][[11]] == "102th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+  }
+  if(Total_Traffic[[k]][[11]] == "103th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+    }
+  if(Total_Traffic[[k]][[11]] == "104th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+    }
+  if(Total_Traffic[[k]][[11]] == "105th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+    }
+  if(Total_Traffic[[k]][[11]] == "106th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+    }
+   if(Total_Traffic[[k]][[11]] == "107th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+    }
+  if(Total_Traffic[[k]][[11]] == "108th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+    }
+  if(Total_Traffic[[k]][[11]] == "109th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+    }
+  if(Total_Traffic[[k]][[11]] == "110th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+    }
+  if(Total_Traffic[[k]][[11]] == "111th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+    }
+  if(Total_Traffic[[k]][[11]] == "112th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+    }
+  if(Total_Traffic[[k]][[11]] == "113th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+    }
+  if(Total_Traffic[[k]][[11]] == "114th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+    }
+  if(Total_Traffic[[k]][[11]] == "115th St"){
+    print(as.numeric(Total_Traffic[[k]][[13]]))
+    }
+}
+```
+
+#Q4 What is the total traffic of vehicles on geolocations, (41.651861, -87.54501) and(41.66836, -87.620176)
+Total Traffice between these geolocations: 13600.
+```{r}
+for(l in 1:1279){
+  if(Total_Traffic[[l]][[15]]=="41.651861" && Total_Traffic[[l]][[16]]== "-87.54501"){a<-as.numeric(Total_Traffic[[l]][[13]])}
+  if(Total_Traffic[[l]][[15]]=="41.66836" && Total_Traffic[[l]][[16]]== "-87.620176"){b<-as.numeric(Total_Traffic[[l]][[13]])}
+}
+Total_Traffic = a+b
+print(Total_Traffic)
+```
+

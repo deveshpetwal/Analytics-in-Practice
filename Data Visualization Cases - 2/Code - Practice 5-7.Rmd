@@ -1,0 +1,99 @@
+---
+title: "Analytics in Practice"
+output:
+  word_document: default
+---
+
+#Libraries used
+
+```{r}
+library(ggplot2)
+```
+
+#Class Practice 5
+
+
+#1.	Plot the histogram using ggplot()
+
+```{r}
+ggplot(mpg, aes(hwy)) + geom_histogram()
+```
+
+#2.	Plot the distribution of the variables using geom_freqpoly()
+
+```{r}
+ggplot(mpg, aes(hwy)) + geom_freqpoly()
+```
+
+#3.	Plot box plot using geom_boxplot()
+
+```{r}
+ggplot(mpg, aes(hwy,cty)) + geom_boxplot()
+```
+
+#4.	What is the purpose of Histograms and Density plot?
+
+Histogram: A histogram divides the variable into bins, counts the data points in each bin, and shows the bins on the x-axis and the counts on the y-axis.
+
+Density Plot: A Density Plot visualises the distribution of data over a continuous interval or time period. An advantage Density Plots have over Histograms is that they're better at determining the distribution shape because they're not affected by the number of bins used (each bar used in a typical histogram).
+
+#5.	Name another Univariate plot?
+Boxplot, Scatterplot
+
+#6. Plot the following using ggplot() + facet_wrap()
+
+```{r}
+ggplot(mpg, aes(cty, fill = drv)) +   geom_histogram(binwidth = 0.5) +  facet_wrap(~drv, ncol = 1)
+```
+
+#7.	Plot the following graph:
+
+```{r}
+ggplot(mpg, aes(displ, colour = class)) + geom_freqpoly(binwidth = 0.5)
+```
+
+#Class Practice 6
+
+#1.	Use the “economics” dataset and Plot the following using geom_line():
+
+```{r}
+ggplot(economics, aes(date, pop)) + geom_line()
+```
+
+#2.	Plot the unemployment growth rate over a period of time:
+
+```{r}
+ggplot(economics, aes(date, unemploy)) +  geom_line()
+```
+
+#3.	Plot the graph to show how long people were unemployed?
+
+```{r}
+ggplot(economics, aes(unemploy / pop, uempmed)) + geom_point() + geom_smooth(method = "lm")
+```
+
+#4.	Plot the below graph(HINT: Use POSIXlt() ; ggplot() +  geom_path() + geom_point()
+
+```{r}
+year <- function(x) as.POSIXlt(x)$year + 1900
+ggplot(economics, aes(unemploy / pop, uempmed)) + geom_path() + geom_point(aes(colour = year(date)))
+```
+
+#Class Practice 6
+
+#1.	Explore the distribution of the “carat” variable in the diamonds dataset. What banwidth reveals the most interesting patterns?
+
+Lower the binwidth, more interesting the patterns becomes.
+
+```{r}
+head(diamonds)
+summary(diamonds)
+ggplot(diamonds,aes(carat)) + geom_histogram(binwidth=0.01)
+```
+
+#2.	Explore the distribution of the “price” variable in the diamonds data. How does the distribution vary by cut?
+
+```{r}
+ggplot(diamonds, aes(x = cut, y = price)) + geom_boxplot()
+```
+
